@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Checkpoint</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="API Checkpoint home"><span class="brand-mark">↗</span><span>API <b>Checkpoint</b></span></a>
+        <div class="topbar-actions"><span class="save-status" id="saveStatus">Saved locally</span><button class="button button-quiet" id="newRequest">+ New request</button></div>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">API AUTOMATION, WITHOUT THE SETUP</p>
+        <h1>Test APIs. Know what changed.</h1>
+        <p>Create a request, add a few checks, and keep an exportable record of every run.</p>
+      </section>
+
+      <section class="workspace" aria-label="API test workspace">
+        <aside class="sidebar">
+          <div class="side-heading"><span>REQUESTS</span><button class="icon-button" id="addRequest" title="Add request">+</button></div>
+          <nav id="requestList" class="request-list" aria-label="Saved requests"></nav>
+          <div class="sidebar-foot"><span id="requestCount">0 requests</span><button class="text-button" id="clearHistory">Clear runs</button></div>
+        </aside>
+
+        <div class="editor">
+          <div class="request-name-row"><input id="requestName" aria-label="Request name" placeholder="Untitled request" /><span id="runBadge" class="run-badge">Ready</span></div>
+          <div class="request-bar">
+            <select id="method" aria-label="HTTP method"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option></select>
+            <input id="url" aria-label="Request URL" placeholder="https://api.example.com/v1/users" />
+            <button class="button button-primary" id="sendRequest"><span>Run test</span><kbd>⌘↵</kbd></button>
+          </div>
+          <p class="cors-note">Runs in your browser. The API must allow cross-origin requests (CORS).</p>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="headers">Headers <span id="headerCount">0</span></button>
+            <button class="tab" data-tab="body">Body</button>
+            <button class="tab" data-tab="checks">Checks <span id="checkCount">0</span></button>
+          </div>
+
+          <section class="tab-panel" id="headersPanel">
+            <div class="key-grid key-grid-head"><span>Header</span><span>Value</span><span></span></div>
+            <div id="headersRows"></div>
+            <button class="add-row" id="addHeader">+ Add header</button>
+          </section>
+          <section class="tab-panel hidden" id="bodyPanel">
+            <div class="body-toolbar"><label for="bodyType">Format</label><select id="bodyType"><option value="json">JSON</option><option value="text">Text</option></select></div>
+            <textarea id="body" spellcheck="false" placeholder='{"name": "Ada"}'></textarea>
+          </section>
+          <section class="tab-panel hidden" id="checksPanel">
+            <p class="hint">Assertions turn a request into a repeatable test.</p>
+            <div id="checkRows"></div>
+            <button class="add-row" id="addCheck">+ Add check</button>
+          </section>
+        </div>
+
+        <aside class="results" aria-live="polite">
+          <div class="result-header"><div><p class="eyebrow">LATEST RUN</p><h2 id="resultTitle">Waiting to run</h2></div><span id="resultStatus" class="status-dot neutral">—</span></div>
+          <div class="metrics"><div><span>STATUS</span><strong id="metricStatus">—</strong></div><div><span>TIME</span><strong id="metricTime">—</strong></div><div><span>SIZE</span><strong id="metricSize">—</strong></div></div>
+          <section class="check-summary"><div class="section-label">CHECKS <span id="checksResult">—</span></div><div id="checkResults" class="check-results empty">Your assertion results will appear here.</div></section>
+          <section class="response-section"><div class="response-heading"><span class="section-label">RESPONSE</span><button class="text-button" id="copyResponse">Copy</button></div><pre id="responseBody">// The response body will appear here.</pre></section>
+          <div class="export-row"><button class="button button-secondary" id="exportJson">Export JSON</button><button class="button button-secondary" id="exportCsv">Export CSV</button><button class="button button-secondary" id="exportHtml">Share report</button></div>
+        </aside>
+      </section>
+    </main>
+    <template id="headerTemplate"><div class="key-grid header-row"><input placeholder="Accept" aria-label="Header name"><input placeholder="application/json" aria-label="Header value"><button class="remove-row" title="Remove header">×</button></div></template>
+    <template id="checkTemplate"><div class="check-row"><select aria-label="Check type"><option value="status">Status equals</option><option value="contains">Response contains</option><option value="json">JSON path equals</option><option value="time">Response time under (ms)</option></select><input aria-label="Check value" placeholder="200"><button class="remove-row" title="Remove check">×</button></div></template>
+    <script src="app.js"></script>
+  </body>
+</html>
